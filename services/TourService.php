@@ -11,11 +11,12 @@ class TourService
 
     public function getAllTours(): array
     {
-        $tours = $this->repository->getAllTours();
+        return $this->repository->getAllTours();
+    }
 
-        // Business rule example: filter invalid tours
-        return array_filter($tours, function ($tour) {
-            return isset($tour['price']) && $tour['price'] > 0;
-        });
+    public function getTourById(int $id)
+
+    {
+        return $this->repository->getTourById($id);
     }
 }

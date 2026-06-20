@@ -10,6 +10,7 @@ require_once plugin_dir_path(__FILE__) . 'routes/TourRoutes.php';
 require_once plugin_dir_path(__FILE__) . 'controllers/TourController.php';
 require_once plugin_dir_path(__FILE__) . 'services/TourService.php';
 require_once plugin_dir_path(__FILE__) . 'repositories/TourRepository.php';
+require_once __DIR__ . '/models/Tour.php';
 
 register_activation_hook(__FILE__, 'travel_booking_create_tables');
 

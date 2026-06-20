@@ -26,4 +26,20 @@ class TourRepository
             );
         }, $rows ?: []);
     }
+
+    public function getTourById(int $id)
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'travel_tours';
+
+        $sql = $wpdb->prepare(
+            "SELECT * FROM $table WHERE id = %d",
+            $id
+        );
+
+        $result = $wpdb->get_row($sql, ARRAY_A);
+
+        return $result ?: null;
+    }
 }

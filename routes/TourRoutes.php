@@ -12,4 +12,18 @@ add_action('rest_api_init', function () {
         },
         'permission_callback' => '__return_true'
     ]);
+
+    register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
+
+        'methods'  => 'GET',
+
+        'callback' => function ($request) {
+
+            $controller = new TourController();
+            return $controller->getTourById($request);
+        },
+
+        'permission_callback' => '__return_true'
+
+    ]);
 });
