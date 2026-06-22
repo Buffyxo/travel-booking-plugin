@@ -8,12 +8,8 @@ use Exception;
 
 class TourController
 {
-    private TourService $service;
 
-    public function __construct()
-    {
-        $this->service = new TourService();
-    }
+    public function __construct(private TourService $service) {}
 
     public function getAllTours()
     {

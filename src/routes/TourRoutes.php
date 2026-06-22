@@ -6,17 +6,21 @@ use TravelBooking\Controllers\TourController;
 
 class TourRoutes
 {
+    public function __construct(private TourController $controller) {}
 
     public function register(): void
     {
         register_rest_route('travel/v1', '/tours', [
+
             'methods'  => 'GET',
+
             'callback' => function () {
 
-                $controller = new TourController();
-                return $controller->getAllTours();
+                return $this->controller->getAllTours();
             },
+
             'permission_callback' => '__return_true'
+
         ]);
 
         register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
@@ -25,8 +29,7 @@ class TourRoutes
 
             'callback' => function ($request) {
 
-                $controller = new TourController();
-                return $controller->getTourById($request);
+                return $this->controller->getTourById($request);
             },
 
             'permission_callback' => '__return_true'
@@ -39,8 +42,7 @@ class TourRoutes
 
             'callback' => function ($request) {
 
-                $controller = new TourController();
-                return $controller->createTour($request);
+                return $this->controller->createTour($request);
             },
 
             'permission_callback' => '__return_true'
@@ -53,8 +55,7 @@ class TourRoutes
 
             'callback' => function ($request) {
 
-                $controller = new TourController();
-                return $controller->updateTour($request);
+                return $this->controller->updateTour($request);
             },
 
             'permission_callback' => '__return_true'
@@ -69,8 +70,7 @@ class TourRoutes
 
             'callback' => function ($request) {
 
-                $controller = new TourController();
-                return $controller->deleteTour($request);
+                return $this->controller->deleteTour($request);
             },
 
             'permission_callback' => '__return_true'

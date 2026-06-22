@@ -7,12 +7,8 @@ use Exception;
 
 class TourService
 {
-    private TourRepository $repository;
 
-    public function __construct()
-    {
-        $this->repository = new TourRepository();
-    }
+    public function __construct(private TourRepository $repository) {}
 
     public function getAllTours(): array
     {
