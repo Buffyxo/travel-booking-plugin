@@ -1,76 +1,80 @@
 <?php
 
+namespace TravelBooking\Routes;
+
 use TravelBooking\Controllers\TourController;
 
-error_log("TourRoutes loaded");
+class TourRoutes
+{
 
-add_action('rest_api_init', function () {
+    public function register(): void
+    {
+        register_rest_route('travel/v1', '/tours', [
+            'methods'  => 'GET',
+            'callback' => function () {
 
-    register_rest_route('travel/v1', '/tours', [
-        'methods'  => 'GET',
-        'callback' => function () {
+                $controller = new TourController();
+                return $controller->getAllTours();
+            },
+            'permission_callback' => '__return_true'
+        ]);
 
-            $controller = new TourController();
-            return $controller->getAllTours();
-        },
-        'permission_callback' => '__return_true'
-    ]);
+        register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
 
-    register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
+            'methods'  => 'GET',
 
-        'methods'  => 'GET',
+            'callback' => function ($request) {
 
-        'callback' => function ($request) {
+                $controller = new TourController();
+                return $controller->getTourById($request);
+            },
 
-            $controller = new TourController();
-            return $controller->getTourById($request);
-        },
+            'permission_callback' => '__return_true'
 
-        'permission_callback' => '__return_true'
+        ]);
 
-    ]);
+        register_rest_route('travel/v1', '/tours', [
 
-    register_rest_route('travel/v1', '/tours', [
+            'methods' => 'POST',
 
-        'methods' => 'POST',
+            'callback' => function ($request) {
 
-        'callback' => function ($request) {
+                $controller = new TourController();
+                return $controller->createTour($request);
+            },
 
-            $controller = new TourController();
-            return $controller->createTour($request);
-        },
+            'permission_callback' => '__return_true'
 
-        'permission_callback' => '__return_true'
+        ]);
 
-    ]);
+        register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
 
-    register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
+            'methods' => 'PUT',
 
-        'methods' => 'PUT',
+            'callback' => function ($request) {
 
-        'callback' => function ($request) {
+                $controller = new TourController();
+                return $controller->updateTour($request);
+            },
 
-            $controller = new TourController();
-            return $controller->updateTour($request);
-        },
-
-        'permission_callback' => '__return_true'
-
-
-    ]);
+            'permission_callback' => '__return_true'
 
 
-    register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
+        ]);
 
-        'methods' => 'DELETE',
 
-        'callback' => function ($request) {
+        register_rest_route('travel/v1', '/tours/(?P<id>\d+)', [
 
-            $controller = new TourController();
-            return $controller->deleteTour($request);
-        },
+            'methods' => 'DELETE',
 
-        'permission_callback' => '__return_true'
+            'callback' => function ($request) {
 
-    ]);
-});
+                $controller = new TourController();
+                return $controller->deleteTour($request);
+            },
+
+            'permission_callback' => '__return_true'
+
+        ]);
+    }
+}

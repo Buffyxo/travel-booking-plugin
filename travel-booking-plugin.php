@@ -7,7 +7,13 @@
 if (!defined('ABSPATH')) exit;
 
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/src/Routes/TourRoutes.php';
+
+use TravelBooking\Core\Plugin;
+
+add_action('plugins_loaded', function () {
+
+    (new Plugin())->init();
+});
 
 register_activation_hook(__FILE__, 'travel_booking_create_tables');
 
