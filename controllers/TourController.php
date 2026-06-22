@@ -46,4 +46,59 @@ class TourController
 
         ];
     }
+
+    public function createTour($request)
+    {
+        try {
+            $tourId = $this->service->createTour(
+                $request->get_json_params()
+            );
+
+            return new WP_REST_Response([
+                'success' => true,
+                'id' => $tourId
+            ], 201);
+        } catch (Exception $e) {
+
+            return new WP_REST_Response([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function updateTour($request)
+    {
+        $id = (int) $request['id'];
+
+        $success = $this->service->updateTour(
+            $id,
+            $request->get_json_params()
+        );
+
+        return [
+            'success' => $success
+        ];
+    }
+
+    public function deleteTour($request)
+    {
+        try {
+            $id = (int) $request['id'];
+
+            $success = $this->service->deleteTour($id);
+
+            return [
+                'success' => $success
+            ];
+        } catch (Exception $e) {
+            return new WP_REST_Response([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 404);
+        }
+    }
 }

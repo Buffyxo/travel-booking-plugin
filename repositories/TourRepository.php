@@ -42,4 +42,83 @@ class TourRepository
 
         return $result ?: null;
     }
+
+    public function create(array $data): int
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'travel_tours';
+
+        $wpdb->insert(
+            $table,
+            [
+                'title' => $data['title'],
+                'destination' => $data['destination'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'duration' => $data['duration']
+            ],
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%f',
+                '%s'
+            ]
+        );
+
+        return (int) $wpdb->insert_id;
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'travel_tours';
+
+        $result = $wpdb->update(
+            $table,
+            [
+                'title' => $data['title'],
+                'destination' => $data['destination'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'duration' => $data['duration']
+            ],
+            [
+                'id' => $id
+            ],
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%f',
+                '%s'
+            ],
+            [
+                '%d'
+            ]
+        );
+
+        return $result !== false;
+    }
+
+    public function delete(int $id): bool
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'travel_tours';
+
+        $result = $wpdb->delete(
+            $table,
+            [
+                'id' => $id
+            ],
+            [
+                '%d'
+            ]
+        );
+
+        return $result > 0;
+    }
 }
