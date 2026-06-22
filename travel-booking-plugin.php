@@ -23,35 +23,65 @@ function travel_booking_create_tables()
 
     global $wpdb;
 
-    $table_name = $wpdb->prefix . 'travel_tours';
+    $toursTable = $wpdb->prefix . 'travel_tours';
+
+    $bookingsTable = $wpdb->prefix . 'travel_bookings';
 
     $charset_collate = $wpdb->get_charset_collate();
 
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-    $sql = "CREATE TABLE $table_name (
+    dbDelta("
 
-        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        CREATE TABLE $toursTable (
 
-        title VARCHAR(255) NOT NULL,
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 
-        destination VARCHAR(255) NOT NULL,
+            title VARCHAR(255) NOT NULL,
 
-        description TEXT NULL,
+            destination VARCHAR(255) NOT NULL,
 
-        price DECIMAL(10,2) NOT NULL DEFAULT 0,
+            description TEXT NULL,
 
-        duration VARCHAR(100) NULL,
+            price DECIMAL(10,2) NOT NULL DEFAULT 0,
 
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            duration VARCHAR(100) NULL,
 
-        PRIMARY KEY (id)
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    ) $charset_collate;";
+            PRIMARY KEY (id)
 
-    dbDelta($sql);
+        ) $charset_collate;
 
-    $count = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+    ");
+
+    dbDelta("
+
+        CREATE TABLE $bookingsTable (
+
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+            tour_id BIGINT UNSIGNED NOT NULL,
+
+            customer_name VARCHAR(255) NOT NULL,
+
+            customer_email VARCHAR(255) NOT NULL,
+
+            number_of_guests INT NOT NULL,
+
+            total_price DECIMAL(10,2) NOT NULL,
+
+            booking_status VARCHAR(50) NOT NULL,
+
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+            PRIMARY KEY (id)
+
+        ) $charset_collate;
+
+    ");
+
+    $count = $wpdb->get_var("SELECT COUNT(*) FROM $toursTable");
 
     if ($count == 0) {
 
