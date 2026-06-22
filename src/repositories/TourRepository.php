@@ -1,5 +1,9 @@
 <?php
 
+namespace TravelBooking\Repositories;
+
+use TravelBooking\Models\Tour;
+
 class TourRepository
 {
     public function getAllTours(): array

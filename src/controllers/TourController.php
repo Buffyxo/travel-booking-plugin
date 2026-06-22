@@ -1,5 +1,11 @@
 <?php
 
+namespace TravelBooking\Controllers;
+
+use TravelBooking\Services\TourService;
+use WP_REST_Response;
+use Exception;
+
 class TourController
 {
     private TourService $service;

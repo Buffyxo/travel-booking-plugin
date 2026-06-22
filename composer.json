@@ -1,0 +1,8 @@
+{
+    "name": "wordpress/travel-booking-plugin",
+    "autoload": {
+        "psr-4": {
+            "TravelBooking\\": "src/"
+        }
+    }
+}

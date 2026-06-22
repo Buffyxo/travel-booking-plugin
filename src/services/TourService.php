@@ -1,5 +1,10 @@
 <?php
 
+namespace TravelBooking\Services;
+
+use TravelBooking\Repositories\TourRepository;
+use Exception;
+
 class TourService
 {
     private TourRepository $repository;

@@ -1,5 +1,7 @@
 <?php
 
+namespace TravelBooking\Models;
+
 class Tour
 {
     public function __construct(

@@ -1,4 +1,7 @@
 <?php
+
+use TravelBooking\Controllers\TourController;
+
 error_log("TourRoutes loaded");
 
 add_action('rest_api_init', function () {
