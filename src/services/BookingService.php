@@ -2,6 +2,8 @@
 
 namespace TravelBooking\Services;
 
+use TravelBooking\Models\BookingStatus;
+
 use TravelBooking\Repositories\BookingRepository;
 use TravelBooking\Repositories\TourRepository;
 use Exception;
@@ -37,10 +39,53 @@ class BookingService
 
         $data['total_price'] = $totalPrice;
 
-        $data['booking_status'] = 'PENDING';
+        $data['booking_status'] = BookingStatus::PENDING;
 
         $data['created_at'] = current_time('mysql');
 
         return $this->bookingRepository->create($data);
+    }
+
+    public function getAllBookings(): array
+    {
+        return $this->bookingRepository->getAllBookings();
+    }
+
+    public function getBookingById(int $id)
+    {
+
+        return $this->bookingRepository->getBookingById($id);
+    }
+
+    public function confirmBooking(int $bookingId): bool
+    {
+        $booking =
+            $this->bookingRepository->getBookingById($bookingId);
+
+        if (!$booking) {
+            throw new Exception('Booking not found');
+        }
+
+        if ($booking['booking_status'] !== BookingStatus::PENDING) {
+            throw new Exception('Only pending bookings can be confirmed');
+        }
+
+        return $this->bookingRepository->updateStatus($bookingId, 'CONFIRMED');
+    }
+
+    public function cancelBooking(int $bookingId): bool
+    {
+        $booking =
+            $this->bookingRepository->getBookingById($bookingId);
+
+        if (!$booking) {
+            throw new Exception('Booking not found');
+        }
+
+        if ($booking['booking_status'] !== BookingStatus::PENDING) {
+            throw new Exception('Only pending bookings can be cancelled');
+        }
+
+        return $this->bookingRepository->updateStatus($bookingId, 'CANCELLED');
     }
 }
